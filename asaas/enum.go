@@ -493,7 +493,7 @@ func (f FileMimeType) String() string {
 }
 
 func (a Env) BaseUrl() string {
-	return []string{"https://sandbox.asaas.com/api", "https://api.asaas.com"}[a]
+	return []string{"https://api-sandbox.asaas.com", "https://api.asaas.com"}[a]
 }
 
 func (t WebhookType) PathUrl() string {
