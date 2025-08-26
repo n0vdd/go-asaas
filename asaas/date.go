@@ -68,6 +68,13 @@ func (d Date) Time() time.Time {
 	return time.Time(d)
 }
 
+func (d Date) String() string {
+	if d.IsZero() {
+		return ""
+	}
+	return d.Format()
+}
+
 func (d Date) date() (year int, month time.Month, day int, yDay int) {
 	t := d.Time()
 	return t.Year(), t.Month(), t.Day(), t.YearDay()
