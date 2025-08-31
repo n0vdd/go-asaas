@@ -76,6 +76,13 @@ func (d Datetime) IsZero() bool {
 	return d.Time().IsZero()
 }
 
+func (d Datetime) String() string {
+	if d.IsZero() {
+		return ""
+	}
+	return d.Format()
+}
+
 func (d Datetime) date() (year int, month time.Month, day int, yDay int) {
 	t := d.Time()
 	return t.Year(), t.Month(), t.Day(), t.YearDay()
