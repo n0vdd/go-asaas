@@ -1,4 +1,4 @@
-module github.com/GabrielHCataldo/go-asaas
+module github.com/n0vdd/go-asaas
 
 go 1.21.3
 

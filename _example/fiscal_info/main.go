@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/GabrielHCataldo/go-asaas/asaas"
+	"github.com/n0vdd/go-asaas/asaas"
 	"os"
 )
 

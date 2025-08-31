@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"github.com/GabrielHCataldo/go-asaas/internal/util"
+	"github.com/n0vdd/go-asaas/internal/util"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -180,6 +180,7 @@ func (r request[T]) readResponse(res *http.Response, result *T) {
 		x.Data = string(respBody)
 		*result = any(x).(T)
 	} else if util.IsJson(respBody) {
+		//TODO we are just ignoring errors here, should we log them?
 		_ = json.Unmarshal(respBody, result)
 	}
 }

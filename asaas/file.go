@@ -3,7 +3,7 @@ package asaas
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/GabrielHCataldo/go-asaas/internal/util"
+	"github.com/n0vdd/go-asaas/internal/util"
 	"net/url"
 )
 

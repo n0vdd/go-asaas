@@ -1,6 +1,6 @@
 package asaas
 
-import "github.com/GabrielHCataldo/go-asaas/internal/util"
+import "github.com/n0vdd/go-asaas/internal/util"
 
 type DeleteResponse struct {
 	Id      string          `json:"id,omitempty"`

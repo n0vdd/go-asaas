@@ -2,8 +2,8 @@ package asaas
 
 import (
 	"context"
-	"github.com/GabrielHCataldo/go-asaas/internal/util"
 	"github.com/mvrilo/go-cpf"
+	"github.com/n0vdd/go-asaas/internal/util"
 	"io"
 	"os"
 	"strconv"

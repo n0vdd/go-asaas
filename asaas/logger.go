@@ -2,7 +2,7 @@ package asaas
 
 import (
 	"fmt"
-	"github.com/GabrielHCataldo/go-asaas/internal/util"
+	"github.com/n0vdd/go-asaas/internal/util"
 	"log"
 	"os"
 )

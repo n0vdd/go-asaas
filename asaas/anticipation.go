@@ -140,7 +140,7 @@ type Anticipation interface {
 	// Se o parâmetro de retorno error não estiver nil quer dizer que ocorreu um erro inesperado
 	// na lib go-asaas.
 	//
-	// Se isso acontecer por favor report o erro no repositório: https://github.com/GabrielHCataldo/go-asaas
+	// Se isso acontecer por favor report o erro no repositório: https://github.com/n0vdd/go-asaas
 	//
 	// # DOCS
 	//
@@ -181,7 +181,7 @@ type Anticipation interface {
 	// Se o parâmetro de retorno error não estiver nil quer dizer que ocorreu um erro inesperado
 	// na lib go-asaas.
 	//
-	// Se isso acontecer por favor report o erro no repositório: https://github.com/GabrielHCataldo/go-asaas
+	// Se isso acontecer por favor report o erro no repositório: https://github.com/n0vdd/go-asaas
 	//
 	// # DOCS
 	//
@@ -230,7 +230,7 @@ type Anticipation interface {
 	// Se o parâmetro de retorno error não estiver nil quer dizer que ocorreu um erro inesperado
 	// na lib go-asaas.
 	//
-	// Se isso acontecer por favor report o erro no repositório: https://github.com/GabrielHCataldo/go-asaas
+	// Se isso acontecer por favor report o erro no repositório: https://github.com/n0vdd/go-asaas
 	//
 	// # DOCS
 	//
@@ -282,7 +282,7 @@ type Anticipation interface {
 	// Se o parâmetro de retorno error não estiver nil quer dizer que ocorreu um erro inesperado
 	// na lib go-asaas.
 	//
-	// Se isso acontecer por favor report o erro no repositório: https://github.com/GabrielHCataldo/go-asaas
+	// Se isso acontecer por favor report o erro no repositório: https://github.com/n0vdd/go-asaas
 	//
 	// # DOCS
 	//
@@ -324,7 +324,7 @@ type Anticipation interface {
 	// Se o parâmetro de retorno error não estiver nil quer dizer que ocorreu um erro inesperado
 	// na lib go-asaas.
 	//
-	// Se isso acontecer por favor report o erro no repositório: https://github.com/GabrielHCataldo/go-asaas
+	// Se isso acontecer por favor report o erro no repositório: https://github.com/n0vdd/go-asaas
 	//
 	// # DOCS
 	//
@@ -372,7 +372,7 @@ type Anticipation interface {
 	// Se o parâmetro de retorno error não estiver nil quer dizer que ocorreu um erro inesperado
 	// na lib go-asaas.
 	//
-	// Se isso acontecer por favor report o erro no repositório: https://github.com/GabrielHCataldo/go-asaas
+	// Se isso acontecer por favor report o erro no repositório: https://github.com/n0vdd/go-asaas
 	//
 	// # DOCS
 	//
