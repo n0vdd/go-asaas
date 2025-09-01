@@ -89,6 +89,7 @@ func (r request[T]) createHttpRequest(ctx context.Context, method string, path s
 			rPayload := reflect.ValueOf(payload)
 			rtPayload := reflect.TypeOf(payload)
 			params := url.Values{}
+			var rawQueryParts []string
 			for i := 0; i < rPayload.NumField(); i++ {
 				f := rPayload.Field(i)
 				ft := rtPayload.Field(i)
@@ -97,11 +98,30 @@ func (r request[T]) createHttpRequest(ctx context.Context, method string, path s
 				if util.IsBlank(&k) || v == nil {
 					continue
 				}
-				params.Add(k, util.ConvertToString(v))
+				// Check if the parameter name contains brackets (like dueDate[ge])
+				if strings.Contains(k, "[") && strings.Contains(k, "]") {
+					// For bracket parameters, build raw query string to preserve brackets
+					rawQueryParts = append(rawQueryParts, k+"="+url.QueryEscape(util.ConvertToString(v)))
+				} else {
+					// For regular parameters, use standard URL encoding
+					params.Add(k, util.ConvertToString(v))
+				}
 			}
-			encode := params.Encode()
-			if util.IsNotBlank(&encode) {
-				rUrl += "?" + encode
+			// Build the final query string
+			var finalQuery string
+			if len(rawQueryParts) > 0 || len(params) > 0 {
+				if len(params) > 0 {
+					finalQuery = params.Encode()
+				}
+				if len(rawQueryParts) > 0 {
+					rawQuery := strings.Join(rawQueryParts, "&")
+					if finalQuery != "" {
+						finalQuery += "&" + rawQuery
+					} else {
+						finalQuery = rawQuery
+					}
+				}
+				rUrl += "?" + finalQuery
 			}
 			break
 		default:
