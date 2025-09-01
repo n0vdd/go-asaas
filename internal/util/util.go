@@ -107,6 +107,9 @@ func ConvertToString(v any) string {
 		return strconv.FormatFloat(f64, 'f', -1, 64)
 	} else if s, sOk := v.(string); sOk {
 		return s
+	} else if stringer, ok := v.(fmt.Stringer); ok {
+		// Handle types that implement String() method
+		return stringer.String()
 	}
 	return fmt.Sprintf(`"%s"`, v)
 }
