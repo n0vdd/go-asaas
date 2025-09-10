@@ -86,42 +86,9 @@ func (r request[T]) createHttpRequest(ctx context.Context, method string, path s
 	if payload != nil {
 		switch method {
 		case http.MethodGet, http.MethodDelete:
-			rPayload := reflect.ValueOf(payload)
-			rtPayload := reflect.TypeOf(payload)
-			params := url.Values{}
-			var rawQueryParts []string
-			for i := 0; i < rPayload.NumField(); i++ {
-				f := rPayload.Field(i)
-				ft := rtPayload.Field(i)
-				k := util.GetJsonFieldNameByReflectField(ft)
-				v := util.GetValueByReflectField(f)
-				if util.IsBlank(&k) || v == nil {
-					continue
-				}
-				// Check if the parameter name contains brackets (like dueDate[ge])
-				if strings.Contains(k, "[") && strings.Contains(k, "]") {
-					// For bracket parameters, build raw query string to preserve brackets
-					rawQueryParts = append(rawQueryParts, k+"="+url.QueryEscape(util.ConvertToString(v)))
-				} else {
-					// For regular parameters, use standard URL encoding
-					params.Add(k, util.ConvertToString(v))
-				}
-			}
-			// Build the final query string
-			var finalQuery string
-			if len(rawQueryParts) > 0 || len(params) > 0 {
-				if len(params) > 0 {
-					finalQuery = params.Encode()
-				}
-				if len(rawQueryParts) > 0 {
-					rawQuery := strings.Join(rawQueryParts, "&")
-					if finalQuery != "" {
-						finalQuery += "&" + rawQuery
-					} else {
-						finalQuery = rawQuery
-					}
-				}
-				rUrl += "?" + finalQuery
+			queryString := r.buildQueryString(payload)
+			if queryString != "" {
+				rUrl += "?" + queryString
 			}
 			break
 		default:
@@ -179,6 +146,58 @@ func (r request[T]) createHttpRequestMultipartForm(
 	req.Header.Add("access_token", r.accessToken)
 	req.ContentLength = 0
 	return req, nil
+}
+
+// buildQueryString constructs URL query parameters from a struct payload.
+// It preserves bracket notation (e.g., dateCreated[ge]) which is required by the Asaas API
+// for date filtering parameters, while using standard URL encoding for regular parameters.
+func (r request[T]) buildQueryString(payload any) string {
+	rPayload := reflect.ValueOf(payload)
+	rtPayload := reflect.TypeOf(payload)
+
+	// Use url.Values for regular parameters to ensure proper encoding
+	regularParams := url.Values{}
+	// Use slice for bracket parameters to preserve order and brackets
+	var bracketParams []string
+
+	for i := 0; i < rPayload.NumField(); i++ {
+		field := rPayload.Field(i)
+		fieldType := rtPayload.Field(i)
+
+		paramName := util.GetJsonFieldNameByReflectField(fieldType)
+		paramValue := util.GetValueByReflectField(field)
+
+		if util.IsBlank(&paramName) || paramValue == nil {
+			continue
+		}
+
+		valueStr := util.ConvertToString(paramValue)
+
+		// Check if parameter name contains brackets (e.g., dateCreated[ge], dueDate[le])
+		// These need special handling to preserve bracket notation for Asaas API
+		if strings.Contains(paramName, "[") && strings.Contains(paramName, "]") {
+			// For bracket parameters: preserve brackets, but escape the value
+			bracketParams = append(bracketParams, paramName+"="+url.QueryEscape(valueStr))
+		} else {
+			// For regular parameters: use standard url.Values encoding
+			regularParams.Add(paramName, valueStr)
+		}
+	}
+
+	// Combine regular and bracket parameters
+	var queryParts []string
+
+	// Add standard encoded parameters
+	if len(regularParams) > 0 {
+		queryParts = append(queryParts, regularParams.Encode())
+	}
+
+	// Add bracket parameters (already formatted)
+	if len(bracketParams) > 0 {
+		queryParts = append(queryParts, strings.Join(bracketParams, "&"))
+	}
+
+	return strings.Join(queryParts, "&")
 }
 
 func (r request[T]) closeBody(Body io.ReadCloser) {
